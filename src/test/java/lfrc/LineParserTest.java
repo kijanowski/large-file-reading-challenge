@@ -75,4 +75,29 @@ class LineParserTest {
         // then
         assertTrue(reading.isEmpty());
     }
+
+    @Test
+    void testParseInvalidLineWithEmptyLine() {
+        // given
+        var line = "";
+        var parser = new LineParser();
+
+        // when
+        var reading = parser.parse(line);
+
+        // then
+        assertTrue(reading.isEmpty());
+    }
+
+    @Test
+    void testParseInvalidLineWithNullLine() {
+        // given
+        var parser = new LineParser();
+
+        // when
+        var reading = parser.parse(null);
+
+        // then
+        assertTrue(reading.isEmpty());
+    }
 }

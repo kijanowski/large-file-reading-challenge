@@ -4,6 +4,7 @@ import lfrc.api.web.JsonResponseConverter;
 import lfrc.api.web.WebServer;
 import lfrc.model.Temperatures;
 
+import java.io.File;
 import java.util.concurrent.LinkedBlockingQueue;
 
 public class Main {
@@ -11,8 +12,8 @@ public class Main {
     private static final int NUM_LINE_PROCESSORS = 2; // could be provided as a command line parameter
 
     public static void main(String[] args) {
-        if (args.length != 1) {
-            System.err.println("Usage: Main <file>");
+        if (args.length != 1 || fileDoesNotExist(args[0])) {
+            System.err.println("Usage: Main <existing file>");
             System.exit(1);
         }
 
@@ -33,5 +34,10 @@ public class Main {
 
         // start processor
         new LineProcessor(linesQueue, parser, NUM_LINE_PROCESSORS, temps).start();
+    }
+
+    private static boolean fileDoesNotExist(String fileName) {
+        var file = new File(fileName);
+        return !file.exists() || file.isDirectory();
     }
 }
